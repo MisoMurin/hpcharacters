@@ -16,8 +16,9 @@
 		android:supportsRtl="true"
 		android:theme="@style/Theme.HPCharacters"
 		tools:targetApi="31">
+
 		<activity
-			android:name=".characters.presentation.MainActivity"
+			android:name=".characters.presentation.HpCharactersActivity"
 			android:exported="true"
 			android:label="@string/app_name"
 			android:theme="@style/Theme.HPCharacters">
