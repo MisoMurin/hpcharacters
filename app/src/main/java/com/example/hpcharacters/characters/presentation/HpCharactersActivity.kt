@@ -1,5 +1,6 @@
 package com.example.hpcharacters.characters.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -37,6 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.hpcharacters.R
 import com.example.hpcharacters.characters.domain.HpCharacter
+import com.example.hpcharacters.detail.presentation.HpCharacterDetailActivity
+import com.example.hpcharacters.detail.presentation.HpCharacterDetailActivity.Companion.EXTRA_HP_CHARACTER
 import com.example.hpcharacters.ui.theme.HPCharactersTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,7 +87,11 @@ fun HpCharactersList(
 
                 items(viewModel.hpCharacters) { hpCharacter ->
                     HpCharacterItem(hpCharacter = hpCharacter) {
-                        Toast.makeText(context, "${hpCharacter.name} tapped", Toast.LENGTH_LONG).show()
+                        context.startActivity(
+                            Intent(context, HpCharacterDetailActivity::class.java).apply {
+                                putExtra(EXTRA_HP_CHARACTER, hpCharacter)
+                            }
+                        )
                     }
                 }
             }
