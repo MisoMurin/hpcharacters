@@ -3,12 +3,10 @@ package com.example.hpcharacters.detail.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +31,7 @@ import com.example.hpcharacters.characters.domain.HpCharacter
 import com.example.hpcharacters.ui.theme.Background
 import com.example.hpcharacters.ui.theme.HPCharactersTheme
 import com.example.hpcharacters.ui.theme.Purple40
+import com.example.hpcharacters.ui.view.error.ErrorView
 
 
 class HpCharacterDetailActivity : ComponentActivity() {
@@ -49,7 +48,7 @@ class HpCharacterDetailActivity : ComponentActivity() {
                         if (hpCharacter != null) {
                             CharacterDetailView(hpCharacter = hpCharacter as HpCharacter)
                         } else {
-                            NoDataErrorView()
+                            ErrorView(errorMessageId = R.string.error_character_detail_no_data)
                         }
                     }
                 }
@@ -106,34 +105,7 @@ fun CharacterDetailView(hpCharacter: HpCharacter) {
     }
 }
 
-@Composable
-fun NoDataErrorView() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
 
-        Image(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .aspectRatio(1f)
-                .align(Alignment.CenterHorizontally),
-            painter = painterResource(id = R.drawable.ic_no_data_error),
-            contentDescription = "no data error"
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = stringResource(id = R.string.error_character_detail_no_data),
-            fontSize = 24.sp,
-            color = Purple40,
-        )
-    }
-}
 
 @Preview
 @Composable
@@ -146,8 +118,4 @@ fun CharacterDetailViewPreview() {
         )
     )
 }
-@Preview
-@Composable
-fun NoDataErrorViewPreview() {
-    NoDataErrorView()
-}
+

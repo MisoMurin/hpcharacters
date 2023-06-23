@@ -83,6 +83,8 @@ fun HpCharactersList(
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
+        } else if (viewModel.state.value == HpCharactersViewModel.State.ERROR) {
+
         } else {
             val context = LocalContext.current
             LazyColumn(
