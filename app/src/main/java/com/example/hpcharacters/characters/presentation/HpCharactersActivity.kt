@@ -47,6 +47,7 @@ import com.example.hpcharacters.detail.presentation.HpCharacterDetailActivity.Co
 import com.example.hpcharacters.ui.theme.Background
 import com.example.hpcharacters.ui.theme.HPCharactersTheme
 import com.example.hpcharacters.ui.theme.Purple40
+import com.example.hpcharacters.ui.view.error.ErrorView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -77,15 +78,16 @@ fun HpCharactersList(
         viewModel.loadHpCharacters()
     })
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        if (viewModel.state.value == HpCharactersViewModel.State.LOADING) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        } else if (viewModel.state.value == HpCharactersViewModel.State.ERROR) {
-
-        } else {
+    when (viewModel.state.value) {
+        HpCharactersViewModel.State.LOADING -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+        HpCharactersViewModel.State.ERROR -> {
+            ErrorView(errorMessageId = R.string.error_characters)
+        }
+        else -> {
             val context = LocalContext.current
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -95,11 +97,9 @@ fun HpCharactersList(
 
                 items(viewModel.hpCharacters) { hpCharacter ->
                     HpCharacterItem(hpCharacter = hpCharacter) {
-                        context.startActivity(
-                            Intent(context, HpCharacterDetailActivity::class.java).apply {
-                                putExtra(EXTRA_HP_CHARACTER, hpCharacter)
-                            }
-                        )
+                        Intent(context, HpCharacterDetailActivity::class.java)
+                            .apply { putExtra(EXTRA_HP_CHARACTER, hpCharacter) }
+                            .run { context.startActivity(this) }
                     }
                 }
             }
