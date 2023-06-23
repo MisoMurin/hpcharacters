@@ -1,5 +1,6 @@
 package com.example.hpcharacters.characters.presentation
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,8 +25,6 @@ constructor (
 
     var state: MutableState<State> = mutableStateOf(State.LOADING)
 
-    var errorMessage: MutableState<String> = mutableStateOf("")
-
     fun loadHpCharacters() {
         viewModelScope.launch {
             try {
@@ -42,7 +41,7 @@ constructor (
                 }
             } catch (e: Exception) {
                 state.value = State.ERROR
-                errorMessage.value = e.message.toString()
+                Log.e("HP", "Error while loading characters\n${e.message}", e)
             }
         }
     }
